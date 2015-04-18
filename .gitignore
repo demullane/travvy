@@ -6,8 +6,10 @@
 
 # Ignore bundler config.
 /.bundle
+/.env
 
 # Ignore all logfiles and tempfiles.
 /log/*
 !/log/.keep
 /tmp
+*.DS_Store
