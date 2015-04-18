@@ -1,7 +1,8 @@
 source 'https://rubygems.org'
-ruby '2.2.2'
+ruby '2.2.0'
 
 gem 'bootstrap-sass', '~> 3.3.1'
+gem 'rename'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0'
@@ -34,7 +35,7 @@ gem 'bcrypt', '~> 3.1.7'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem :production do
+group :production do
   gem 'rails_12factor'
 end
 
