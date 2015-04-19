@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 ruby '2.2.0'
 
 gem 'bootstrap-sass', '~> 3.3.1'
-gem 'rename'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0'
@@ -38,6 +37,9 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'dotenv-rails'
+
+#  Gem used to scrape airbnb data
+gem 'mechanize'
 
 group :production do
   gem 'rails_12factor'

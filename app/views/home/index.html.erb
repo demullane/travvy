@@ -6,3 +6,13 @@
     <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in" %>
   <% end %>
 </div>
+
+<% @results.each do |listing| %>
+  <div>
+    <strong><%= link_to listing[:title], listing[:link] %></strong><br />
+    <%= image_tag(listing[:image], :alt => listing[:title]) %><br />
+    <%= listing[:price] %><br />
+    <%= listing[:address] %>
+  </div>
+  <br />
+<% end %>
