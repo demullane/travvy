@@ -4,4 +4,8 @@ class HomeController < ApplicationController
     @results = AirbnbFetcher.new.pretty_results
   end
 
+  def map
+
+  end
+
 end
