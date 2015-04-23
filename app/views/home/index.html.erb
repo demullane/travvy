@@ -12,7 +12,9 @@
     <strong><%= link_to listing[:title], listing[:link] %></strong><br />
     <%= image_tag(listing[:image], :alt => listing[:title]) %><br />
     <%= listing[:price] %><br />
-    <%= listing[:address] %>
+    <%= listing[:address] %><br />
+    <%= listing[:latitude] %><br />
+    <%= listing[:longitude] %>
   </div>
   <br />
 <% end %>

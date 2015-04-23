@@ -22,6 +22,8 @@ class AirbnbFetcher
     @prices = @page.search("//div[contains(concat(' ', @class, ' '),' listing ')]").collect {|node| node['data-price']}
     @imgs = @page.search("//span[contains(concat(' ', @class, ' '),' wish_list_button ')]").collect {|node| node['data-img']}
     @addresses = @page.search("//span[contains(concat(' ', @class, ' '),' wish_list_button ')]").collect {|node| node['data-address']}
+    @latitudes = @page.search("//div[contains(concat(' ', @class, ' '),' listing ')]").collect {|node| node['data-lat']}
+    @longitudes = @page.search("//div[contains(concat(' ', @class, ' '),' listing ')]").collect {|node| node['data-lng']}
 
     @links = @links.map do |link|
       add_on = "https://www.airbnb.com"
@@ -31,7 +33,7 @@ class AirbnbFetcher
 
     @results = []
     @titles.each_with_index do |val, index|
-        @results << {:title => val.split.map(&:capitalize).join(' '), :link => @links[index], :price => @prices[index], :image => @imgs[index], :address => @addresses[index]}
+        @results << {:title => val.split.map(&:capitalize).join(' '), :link => @links[index], :price => @prices[index], :image => @imgs[index], :address => @addresses[index], :latitude => @latitudes[index], :longitude => @longitudes[index]}
     end
 
     return @results

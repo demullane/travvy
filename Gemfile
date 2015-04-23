@@ -38,6 +38,9 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'dotenv-rails'
 
+gem 'geocoder'
+gem 'gmaps4rails'
+
 #  Gem used to scrape airbnb data
 gem 'mechanize'
 

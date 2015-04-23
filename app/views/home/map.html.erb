@@ -1,1 +1,11 @@
-<div id="map-canvas"></div>
+<div id="map" style='width: 1050px; height: 515px;'></div>
+<script type="text/javascript">
+handler = Gmaps.build('Google');
+handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+  markers = handler.addMarkers(<%=raw @hash.to_json %>);
+  handler.bounds.extendWith(markers);
+  handler.fitMapToBounds();
+  handler.getMap().setZoom(13);
+  infowindow.open(Gmaps.map, marker.serviceObject);
+});
+</script>
