@@ -1,12 +1,12 @@
 class HomeController < ApplicationController
 
   def index
-    @results = AirbnbFetcher.new.pretty_results
+    @airbnb_results = AirbnbFetcher.new.airbnb_pretty_results
   end
 
   def map
-    @results = AirbnbFetcher.new.pretty_results
-    @hash = Gmaps4rails.build_markers(@results) do |listing, marker|
+    @airbnb_results = AirbnbFetcher.new.airbnb_pretty_results
+    @gmap_hash = Gmaps4rails.build_markers(@airbnb_results) do |listing, marker|
       marker.lat listing[:latitude]
       marker.lng listing[:longitude]
       marker.picture({
@@ -19,7 +19,7 @@ class HomeController < ApplicationController
   end
 
   def hotels
-    @results = HotelFetcher.new.hotel_finder
+    @hotel_results = HotelFetcher.new.hotel_pretty_results
   end
 
 end

@@ -8,7 +8,7 @@
 </div>
 
 <div class="listings">
-  <% @results.each do |listing| %>
+  <% @airbnb_results.each do |listing| %>
     <div>
       <strong><%= link_to listing[:title], listing[:link] %></strong><br />
       <%= image_tag(listing[:image], :alt => listing[:title]) %><br />

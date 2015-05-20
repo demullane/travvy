@@ -7,15 +7,15 @@ class AirbnbFetcher
   end
 
   def search_airbnb #(location, checkin, checkout, guests)
-      form = @page.forms[3]
-        form['location'] = 'Denver, CO, United States'
-        form['checkin'] = '05/21/2015'
-        form['checkout'] = '05/22/2015'
-        form['guests'] = '1 Guest'
-      @page = form.submit
+    form = @page.forms[3]
+      form['location'] = 'Denver, CO, United States'
+      form['checkin'] = '05/21/2015'
+      form['checkout'] = '05/22/2015'
+      form['guests'] = '1 Guest'
+    @page = form.submit
   end
 
-  def pretty_results #(location, checkin, checkout, guests)
+  def airbnb_pretty_results #(location, checkin, checkout, guests)
     self.search_airbnb #(location, checkin, checkout, guests)
     @titles = @page.search("//div[contains(concat(' ', @class, ' '),' listing ')]").collect {|node| node['data-name']}
     @links = @page.search("//div[contains(concat(' ', @class, ' '),' listing ')]").collect {|node| node['data-url']}
@@ -36,12 +36,12 @@ class AirbnbFetcher
       price = "$" + number
     end
 
-    @results = []
+    @airbnb_results = []
     @titles.each_with_index do |val, index|
-        @results << {:title => val.split.map(&:capitalize).join(' '), :link => @links[index], :price => @prices[index], :image => @imgs[index], :address => @addresses[index], :latitude => @latitudes[index], :longitude => @longitudes[index]}
+      @airbnb_results << {:title => val.split.map(&:capitalize).join(' '), :link => @links[index], :price => @prices[index], :image => @imgs[index], :address => @addresses[index], :latitude => @latitudes[index], :longitude => @longitudes[index]}
     end
 
-    return @results
+    return @airbnb_results
   end
 
 end
