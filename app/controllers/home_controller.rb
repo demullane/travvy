@@ -18,4 +18,8 @@ class HomeController < ApplicationController
     end
   end
 
+  def hotels
+    @results = HotelFetcher.new.hotel_finder
+  end
+
 end

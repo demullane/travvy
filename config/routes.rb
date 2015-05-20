@@ -7,5 +7,6 @@ Rails.application.routes.draw do
   match 'signout', to: 'sessions#destroy', as: 'signout', via: [:get, :post]
 
   get '/map' => 'home#map'
+  get '/hotels' => 'home#hotels'
 
 end
