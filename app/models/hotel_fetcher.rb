@@ -71,6 +71,10 @@ class HotelFetcher
       links << url.join('')
     end
 
+    prices = prices.map do |price|
+      price = '$' + price.to_i.round.to_s
+    end
+
     hotel_results = []
     hotel_ids.each_with_index do |val, index|
 
@@ -92,6 +96,3 @@ class HotelFetcher
   end
 
 end
-
-# http://api.ean.com/ean-services/rs/hotel/v3/info?&minorRev=4&cid=55505&apiKey=3rb02109tthsh1jlll9j0be40k&hotelid=136273&options=DEFAULT
-# http://api.ean.com/ean-services/rs/hotel/v3/info?apiKey=3rb02109tthsh1jlll9j0be40k&hotelId=236043&minorRev=4&options=DEFAULT
