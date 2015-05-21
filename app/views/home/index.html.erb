@@ -1,21 +1,21 @@
-<div id="user-widget">
+<div id='user-widget'>
   <% if current_user %>
     Welcome <strong><%= current_user.first_name %></strong>!
-    <%= link_to "Sign out", signout_path, id: "sign_out" %>
+    <%= link_to 'Sign out', signout_path, id: 'sign_out' %>
   <% else %>
-    <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in" %>
+    <%= link_to 'Sign in with Facebook', '/auth/facebook', id: 'sign_in' %>
   <% end %>
 </div>
 
-<div class="listings">
+<div class='listings'>
   <% @airbnb_results.each do |listing| %>
     <div>
-      <strong><%= link_to listing[:title], listing[:link] %></strong><br />
+      <strong><%= link_to listing[:title], listing[:link], target: '_blank' %></strong><br />
       <%= image_tag(listing[:image], :alt => listing[:title]) %><br />
-      <%= listing[:price] %><br />
-      <%= listing[:location_description] %><br />
-      <%= listing[:latitude] %><br />
-      <%= listing[:longitude] %>
+      Price: <%= listing[:price] %><br />
+      Location: <%= listing[:location_description] %><br />
+      Latitude: <%= listing[:latitude] %><br />
+      Longitude: <%= listing[:longitude] %>
     </div>
     <br />
   <% end %>

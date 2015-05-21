@@ -9,8 +9,8 @@ class AirbnbFetcher
   def search_airbnb #(location, checkin, checkout, guests)
     form = @page.forms[3]
       form['location'] = 'Denver, CO, United States'
-      form['checkin'] = '05/21/2015'
-      form['checkout'] = '05/22/2015'
+      form['checkin'] = '07/21/2015'
+      form['checkout'] = '07/22/2015'
       form['guests'] = '1 Guest'
     @page = form.submit
   end
