@@ -1,3 +1,12 @@
-<% @hotel_results.each do |hotel| %>
-<%= hotel %><br>
-<% end %>
+<div class="listings">
+  <% @hotel_results.each do |listing| %>
+    <div>
+      <strong><%= link_to listing[:title], listing[:link] %></strong><br />
+      <%= listing[:price] %><br />
+      <%= listing[:location_description] %><br />
+      <%= listing[:latitude] %><br />
+      <%= listing[:longitude] %>
+    </div>
+    <br />
+  <% end %>
+</div>
