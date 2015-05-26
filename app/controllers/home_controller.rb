@@ -12,7 +12,7 @@ class HomeController < ApplicationController
     @airbnb_results.each do |listing|
       results << {:latitude => listing[:latitude], :longitude => listing[:longitude], :title => listing[:title], :image => listing[:image]}
     end
-    @hotel_results.each do |listing|
+    @hotel_results.each_with_index do |listing, index|
       results << {:latitude => listing[:latitude], :longitude => listing[:longitude], :title => listing[:title], :image => listing[:image]}
     end
     @gmap_hash = Gmaps4rails.build_markers(results) do |listing, marker|
@@ -41,6 +41,16 @@ class HomeController < ApplicationController
 
   def hotels
     @hotel_results = HotelFetcher.new.hotel_pretty_results
+  end
+
+  def search
+    if params[:location]
+      valid, @location_data = Search.new.decipher_search_params(params[:location])
+      if !valid
+        flash[:alert] = @location_data
+        redirect_to('/search')
+      end
+    end
   end
 
 end

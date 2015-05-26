@@ -8,5 +8,6 @@ Rails.application.routes.draw do
 
   get '/map' => 'home#map'
   get '/hotels' => 'home#hotels'
+  get '/search' => 'home#search'
 
 end

@@ -18,11 +18,9 @@ class HotelFetcher
       req.params['currencyCode'] = 'USD'
       req.params['arrivalDate'] = '07/21/2015' #checkin variable
       req.params['departureDate'] = '07/22/2015' #checkout variable
-      req.params['numberOfResults'] = 18
+      req.params['numberOfResults'] = 70 #1-200
       req.params['room1'] = 2 #adult count variable
-      req.params['city'] = 'Denver' #city variable
-      req.params['stateProvinceCode'] = 'CO' #state variable
-      req.params['countryCode'] = 'US' #country variable
+      req.params['destinationString'] = 'Denver, CO' #full address from search.rb
     end
     JSON.parse(response.body)
   end
@@ -41,13 +39,15 @@ class HotelFetcher
 
   def hotel_pretty_results
     data = self.search_hotels
-    titles = data['HotelListResponse']['HotelList']['HotelSummary'].map{ |hotel| hotel['name']}
-    hotel_ids = data['HotelListResponse']['HotelList']['HotelSummary'].map{ |hotel| hotel['hotelId']}
-    room_type_codes = data['HotelListResponse']['HotelList']['HotelSummary'].map{ |hotel| hotel['RoomRateDetailsList']['RoomRateDetails']['roomTypeCode']}
-    prices = data['HotelListResponse']['HotelList']['HotelSummary'].map{ |hotel| hotel['RoomRateDetailsList']['RoomRateDetails']['RateInfo']['ChargeableRateInfo']['NightlyRatesPerRoom']['NightlyRate']['@rate']}
-    location_descriptions = data['HotelListResponse']['HotelList']['HotelSummary'].map{ |hotel| hotel['locationDescription']}
-    latitudes = data['HotelListResponse']['HotelList']['HotelSummary'].map{ |hotel| hotel['latitude']}
-    longitudes = data['HotelListResponse']['HotelList']['HotelSummary'].map{ |hotel| hotel['longitude']}
+    data = data['HotelListResponse']['HotelList']['HotelSummary']
+    titles = data.map{ |hotel| hotel['name']}
+    hotel_ids = data.map{ |hotel| hotel['hotelId']}
+    room_type_codes = data.map{ |hotel| hotel['RoomRateDetailsList']['RoomRateDetails']['roomTypeCode']}
+    prices = data.map{ |hotel| hotel['RoomRateDetailsList']['RoomRateDetails']['RateInfo']['ChargeableRateInfo']['NightlyRatesPerRoom']['NightlyRate']['@rate']}
+    location_descriptions = data.map{ |hotel| hotel['locationDescription']}
+    latitudes = data.map{ |hotel| hotel['latitude']}
+    longitudes = data.map{ |hotel| hotel['longitude']}
+    proximities = data.map{ |hotel| hotel['proximityDistance']}
 
     links = []
     hotel_ids.each do |id|
@@ -86,11 +86,12 @@ class HotelFetcher
         end
       end
       hotel_amentities = extra_info['HotelInformationResponse']['PropertyAmenities']['PropertyAmenity']
-      imgs = extra_info['HotelInformationResponse']['HotelImages']['HotelImage']
+      # imgs = extra_info['HotelInformationResponse']['HotelImages']['HotelImage']
 
       #create array of hashes with info for each hotel listing
-      hotel_results << {:title => titles[index], :link => links[index], :price => prices[index], :images => imgs, :location_description => location_descriptions[index], :latitude => latitudes[index], :longitude => longitudes[index], :hotel_amenities => hotel_amentities, :room_amenities => @room_amenities}
+      hotel_results << {:title => titles[index], :link => links[index], :price => prices[index], :location_description => location_descriptions[index], :latitude => latitudes[index], :longitude => longitudes[index], :hotel_amenities => hotel_amentities, :room_amenities => @room_amenities, :proximity => proximities[index]}
     end
+    hotel_results.sort! {|a,b| a[:proximity] <=> b[:proximity]}
 
     return hotel_results
   end

@@ -1,0 +1,24 @@
+<%= form_tag "/search", {:method => 'get', :class => "form-horizontal"} do %>
+  <div class = "form-group">
+    <%= label_tag :location, "Search by Location", class: "control-label col-md-2" %>
+    <div class = "form-controls col-md-4">
+      <%= text_field_tag :location, nil, class: "form-control" %>
+    </div>
+    <div>
+      <%= submit_tag "Search", class: "btn btn-primary", id: "search-button" %>
+    </div>
+  </div>
+<% end %>
+
+<% if @location_data %>
+<p><%= @location_data %></p>
+<% end %>
+
+<script>
+$("#location").geocomplete();
+
+// Trigger geocoding request.
+$("button.find").click(function(){
+  $("input").trigger("geocode");
+});
+</script>

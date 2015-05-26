@@ -1,15 +1,18 @@
 <div class='listings'>
-  <% @hotel_results.each do |listing| %>
+  <ol>
+  <% @hotel_results.each_with_index do |listing, index| %>
     <div>
-      <strong><%= link_to listing[:title], listing[:link], target: '_blank' %></strong><br />
-      <!-- Images: <#%= listing[:images] %><br /> -->
-      Price: <%= listing[:price] %><br />
-      Location: <%= listing[:location_description] %><br />
-      Latitude: <%= listing[:latitude] %><br />
-      Longitude: <%= listing[:longitude] %><br />
-      <!-- Hotel Amenities: <#%= listing[:hotel_amenities] %><br />
-      Room Amenities: <#%= listing[:room_amenities] %><br /> -->
+        <li><strong><%= link_to listing[:title], listing[:link], target: '_blank' %></strong><br /></li>
+        <!-- Images: <#%= listing[:images] %><br /> -->
+        Price: <%= listing[:price] %><br />
+        Location: <%= listing[:location_description] %><br />
+        Latitude: <%= listing[:latitude] %><br />
+        Longitude: <%= listing[:longitude] %><br />
+        Proximity: <%= listing[:proximity] %><br />
+        <!-- Hotel Amenities: <#%= listing[:hotel_amenities] %><br />
+        Room Amenities: <#%= listing[:room_amenities] %><br /> -->
     </div>
     <br />
   <% end %>
+</ol>
 </div>
