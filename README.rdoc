@@ -1,28 +1,22 @@
-== README
+To-Do
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+1. Integrate search with AB results
+2. Add on other search fields and integrate with search models
+3. Validate no blank fields
+4. Secure search params?
+5. Display hotel and AB results on one page
+6. Collect 2nd, 3rd, 4th+ page data from AB?
+7. Compare available amenities and display off of matching choices
+  7b. Pull amenities from AB
+8. Filter search results
+9. Store favorites, email favorites?
+10. Add About page, credits (add to README)
+11. STYLE!
+12. Fix FB login on mobile?
+....
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+1. Speed up site, refactor, cache
+2. Yield custom error page for invalid routes
+3. Make sure Heroku works
+4. Add whitelabel
+5. Add tests

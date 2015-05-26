@@ -8,7 +8,7 @@ class HotelFetcher
     end
   end
 
-  def search_hotels
+  def search_hotels(location)
     response = @hotel_search.get do |req|
       req.url('list?')
       req.params['apiKey'] = ENV['EXPEDIA_KEY']
@@ -20,7 +20,7 @@ class HotelFetcher
       req.params['departureDate'] = '07/22/2015' #checkout variable
       req.params['numberOfResults'] = 70 #1-200
       req.params['room1'] = 2 #adult count variable
-      req.params['destinationString'] = 'Denver, CO' #full address from search.rb
+      req.params['destinationString'] = "#{location[:city]}, #{location[:state]}, #{location[:zipcode]}" #city, state, zipcode
     end
     JSON.parse(response.body)
   end
@@ -37,9 +37,8 @@ class HotelFetcher
     JSON.parse(response.body)
   end
 
-  def hotel_pretty_results
-    data = self.search_hotels
-    data = data['HotelListResponse']['HotelList']['HotelSummary']
+  def hotel_pretty_results(location)
+    data = self.search_hotels(location)['HotelListResponse']['HotelList']['HotelSummary']
     titles = data.map{ |hotel| hotel['name']}
     hotel_ids = data.map{ |hotel| hotel['hotelId']}
     room_type_codes = data.map{ |hotel| hotel['RoomRateDetailsList']['RoomRateDetails']['roomTypeCode']}
@@ -47,7 +46,6 @@ class HotelFetcher
     location_descriptions = data.map{ |hotel| hotel['locationDescription']}
     latitudes = data.map{ |hotel| hotel['latitude']}
     longitudes = data.map{ |hotel| hotel['longitude']}
-    proximities = data.map{ |hotel| hotel['proximityDistance']}
 
     links = []
     hotel_ids.each do |id|
@@ -89,9 +87,12 @@ class HotelFetcher
       # imgs = extra_info['HotelInformationResponse']['HotelImages']['HotelImage']
 
       #create array of hashes with info for each hotel listing
-      hotel_results << {:title => titles[index], :link => links[index], :price => prices[index], :location_description => location_descriptions[index], :latitude => latitudes[index], :longitude => longitudes[index], :hotel_amenities => hotel_amentities, :room_amenities => @room_amenities, :proximity => proximities[index]}
+      hotel_results << {:title => titles[index], :link => links[index], :price => prices[index], :location_description => location_descriptions[index], :latitude => latitudes[index], :longitude => longitudes[index], :hotel_amenities => hotel_amentities, :room_amenities => @room_amenities}
     end
-    hotel_results.sort! {|a,b| a[:proximity] <=> b[:proximity]}
+    hotel_results.each do |listing|
+      listing[:distance] = Geocoder::Calculations.distance_between([listing[:latitude],listing[:longitude]], [location[:latitude],location[:longitude]])
+    end
+    hotel_results.sort! {|a,b| a[:distance] <=> b[:distance]}
 
     return hotel_results
   end

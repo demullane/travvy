@@ -45,11 +45,12 @@ class HomeController < ApplicationController
 
   def search
     if params[:location]
-      valid, @location_data = Search.new.decipher_search_params(params[:location])
-      if !valid
+      us_valid, @location_data = Search.new.decipher_search_params(params[:location])
+      if !us_valid
         flash[:alert] = @location_data
         redirect_to('/search')
       end
+      @hotel_results = HotelFetcher.new.hotel_pretty_results(@location_data)
     end
   end
 
