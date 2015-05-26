@@ -76,7 +76,14 @@ class HotelFetcher
     hotel_results = []
     hotel_ids.each_with_index do |val, index|
 
-      #pull extra_info data from hotel id
+      # replace &amp; and &apos; substrings with corresponding characters
+      titles[index].sub! ' &amp;', ' &'
+      titles[index].sub! '&amp;', '&'
+      titles[index].sub! '&apos;', '\''
+      location_descriptions[index].sub! ' &amp;', ' &'
+      location_descriptions[index].sub! '&amp;', '&'
+      location_descriptions[index].sub! '&apos;', '\''
+
       extra_info = self.extra_info(val)
       extra_info['HotelInformationResponse']['RoomTypes']['RoomType'].each do |room_type|
         if room_type['@roomCode'].to_s == room_type_codes[index].to_s

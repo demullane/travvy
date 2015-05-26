@@ -13,6 +13,7 @@ To-Do
 10. Add About page, credits (add to README)
 11. STYLE!
 12. Fix FB login on mobile?
+13. Only show US autocomplete locations
 ....
 
 1. Speed up site, refactor, cache
