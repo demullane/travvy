@@ -1,42 +1,57 @@
-<%= form_tag "/search", {:method => 'get', :class => "form-horizontal"} do %>
-  <div class = "form-group">
-    <%= label_tag :location, "Search by Location", class: "control-label col-md-2" %>
-    <div class = "form-controls col-md-4">
-      <%= text_field_tag :location, nil, class: "form-control" %>
+<%= form_tag '/search', {:method => 'get', :id => 'search_form', :class => 'form-horizontal'} do %>
+  <div class = 'form-group'>
+    <%= label_tag :location_input, 'Search by Location', class: 'control-label col-md-2' %>
+    <div class = 'form-controls col-md-4'>
+      <%= text_field_tag :location_input, nil, class: 'form-control' %>
     </div>
-    <div>
-      <%= submit_tag "Search", class: "btn btn-primary", id: "search-button" %>
+  </div>
+  <div class = 'form-group'>
+    <%= label_tag :arrival_date, 'Arrival Date', class: 'control-label col-md-2' %>
+    <div class = 'form-controls col-md-4'>
+      <%= date_field_tag :arrival_date, nil, class: 'form-control' %>
+    </div>
+  </div>
+  <div class = 'form-group'>
+    <%= label_tag :departure_date, 'Departure Date', class: 'control-label col-md-2' %>
+    <div class = 'form-controls col-md-4'>
+      <%= date_field_tag :departure_date, nil, class: 'form-control' %>
+    </div>
+  </div>
+  <div class = 'form-group'>
+    <div class = 'col-md-offset-2 col-md-4'>
+    <%= submit_tag "Search", class: 'btn btn-primary form-control', id: 'search-button' %>
     </div>
   </div>
 <% end %>
 
 <% if @location_data %>
-<p><%= @location_data %></p>
-<div class='listings'>
-  <ol>
-  <% @hotel_results.each_with_index do |listing, index| %>
-    <div>
-        <li><strong><%= link_to listing[:title], listing[:link], target: '_blank' %></strong><br /></li>
-        <!-- Images: <#%= listing[:images] %><br /> -->
-        Price: <%= listing[:price] %><br />
-        Location: <%= listing[:location_description] %><br />
-        Latitude: <%= listing[:latitude] %><br />
-        Longitude: <%= listing[:longitude] %><br />
-        Distance: <%= listing[:distance] %> miles<br />
-        <!-- Hotel Amenities: <#%= listing[:hotel_amenities] %><br />
-        Room Amenities: <#%= listing[:room_amenities] %><br /> -->
-    </div>
-    <br />
-  <% end %>
-</ol>
-</div>
+  <p><%= @location_data %></p>
+  <div class='listings'>
+    <ol>
+      <% @hotel_results.each_with_index do |listing, index| %>
+        <div>
+          <li>
+            <strong>
+              <%= link_to listing[:title], listing[:link], target: '_blank' %>
+            </strong>
+          </li><br>
+          Price: <%= listing[:price] %><br>
+          Location: <%= listing[:location_description] %><br>
+          Latitude: <%= listing[:latitude] %><br>
+          Longitude: <%= listing[:longitude] %><br>
+          Distance: <%= listing[:distance] %> miles<br>
+        </div>
+        <br />
+      <% end %>
+    </ol>
+  </div>
 <% end %>
 
 <script>
-$("#location").geocomplete();
+  $("#location_input").geocomplete();
 
-// Trigger geocoding request.
-$("button.find").click(function(){
-  $("input").trigger("geocode");
-});
+  // Trigger geocoding request.
+  $("button.find").click(function(){
+    $("input").trigger("geocode");
+  });
 </script>

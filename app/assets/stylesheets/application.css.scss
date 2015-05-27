@@ -3,6 +3,8 @@
 
 body {
   padding-top: 60px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .gmap {
@@ -26,4 +28,10 @@ body {
 
 .listings {
   float: left;
+}
+
+#search-well-custom {
+  min-width: 360px;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }

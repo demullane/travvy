@@ -30,6 +30,7 @@ group :development, :test do
   gem 'better_errors'
   gem 'web-console', '~> 2.0'
   gem 'spring', '1.3.6'
+  gem 'thin'
 
   # Testing gems
   gem 'rspec-rails'

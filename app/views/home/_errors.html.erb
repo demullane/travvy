@@ -1,0 +1,8 @@
+<% flash.each do |type, message| %>
+  <% if type == "error" %>
+    <div id = "red-error-text">
+        <%= flash[:error] %><br />
+    </div>
+    <br />
+  <% end %>
+<% end %>
