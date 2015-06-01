@@ -38,7 +38,7 @@
 
   var defaults = {
     bounds: true,
-    country: null,
+    country: 'US',
     map: false,
     details: false,
     detailsAttribute: "name",
