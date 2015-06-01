@@ -8,7 +8,10 @@ class HotelFetcher
     end
   end
 
-  def search_hotels(location)
+  def search_hotels(location_input, arrival_date, departure_date, guest_count)
+    arrival_date = arrival_date
+    departure_date = departure_date
+
     response = @hotel_search.get do |req|
       req.url('list?')
       req.params['apiKey'] = ENV['EXPEDIA_KEY']
@@ -16,11 +19,11 @@ class HotelFetcher
       req.params['minorRev'] = 4
       req.params['locale'] = 'en_US'
       req.params['currencyCode'] = 'USD'
-      req.params['arrivalDate'] = '07/21/2015' #checkin variable
-      req.params['departureDate'] = '07/22/2015' #checkout variable
+      req.params['arrivalDate'] = arrival_date #checkin variable
+      req.params['departureDate'] = departure_date #checkout variable
       req.params['numberOfResults'] = 70 #1-200
-      req.params['room1'] = 2 #adult count variable
-      req.params['destinationString'] = "#{location[:city]}, #{location[:state]}, #{location[:zipcode]}" #city, state, zipcode
+      req.params['room1'] = guest_count #adult count variable
+      req.params['destinationString'] = "#{location_input[:city]}, #{location_input[:state]}, #{location_input[:zipcode]}" #city, state, zipcode
     end
     JSON.parse(response.body)
   end
@@ -37,8 +40,8 @@ class HotelFetcher
     JSON.parse(response.body)
   end
 
-  def hotel_pretty_results(location)
-    data = self.search_hotels(location)['HotelListResponse']['HotelList']['HotelSummary']
+  def hotel_pretty_results(location_input, arrival_date, departure_date, guest_count)
+    data = self.search_hotels(location_input, arrival_date, departure_date, guest_count)['HotelListResponse']['HotelList']['HotelSummary']
     titles = data.map{ |hotel| hotel['name']}
     hotel_ids = data.map{ |hotel| hotel['hotelId']}
     room_type_codes = data.map{ |hotel| hotel['RoomRateDetailsList']['RoomRateDetails']['roomTypeCode']}
@@ -97,7 +100,7 @@ class HotelFetcher
       hotel_results << {:title => titles[index], :link => links[index], :price => prices[index], :location_description => location_descriptions[index], :latitude => latitudes[index], :longitude => longitudes[index], :hotel_amenities => hotel_amentities, :room_amenities => @room_amenities}
     end
     hotel_results.each do |listing|
-      listing[:distance] = Geocoder::Calculations.distance_between([listing[:latitude],listing[:longitude]], [location[:latitude],location[:longitude]]).round(1)
+      listing[:distance] = Geocoder::Calculations.distance_between([listing[:latitude],listing[:longitude]], [location_input[:latitude],location_input[:longitude]]).round(1)
     end
     hotel_results.sort! {|a,b| a[:distance] <=> b[:distance]}
 

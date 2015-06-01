@@ -941,13 +941,16 @@ $.validator.addMethod("ziprange", function(value, element) {
 var arrivalDate = null;
 $.validator.addMethod('currentOrFutureDate', function(value, element) {
 	arrivalDate = new Date(value);
+	arrivalDate = new Date(arrivalDate.getTime() + arrivalDate.getTimezoneOffset()*60000);
 	var todaysDate = new Date();
+	todaysDate.setHours( 0,0,0,0 );
 	return this.optional(element) || (arrivalDate >= todaysDate);
 }, 'Please select a current or future date.');
 
 
 $.validator.addMethod('laterThanArrivalDate', function(value, element) {
 	var departureDate = new Date(value);
+	departureDate = new Date(departureDate.getTime() + departureDate.getTimezoneOffset()*60000);
 	if (arrivalDate !== null){
 		return this.optional(element) || (departureDate >= arrivalDate);
 	}else{

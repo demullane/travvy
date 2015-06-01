@@ -44,13 +44,17 @@ class HomeController < ApplicationController
   end
 
   def search
-    if params[:location]
-      us_valid, @location_data = Search.new.decipher_search_params(params[:location])
+    if params[:location_input] && params[:arrival_date] && params[:departure_date] && params[:guest_count]
+      us_valid, @location_data = Search.new.decipher_location_input_params(params[:location_input])
       if !us_valid
         flash[:alert] = @location_data
         redirect_to('/search')
       end
-      @hotel_results = HotelFetcher.new.hotel_pretty_results(@location_data)
+      @location_input = params[:location_input]
+      @arrival_date = params[:arrival_date]
+      @departure_date = params[:departure_date]
+      @guest_count = params[:guest_count]
+      @hotel_results = HotelFetcher.new.hotel_pretty_results(@location_data, params[:arrival_date], params[:departure_date], params[:guest_count])
     end
   end
 

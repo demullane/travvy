@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 ruby '2.2.0'
 
 gem 'bootstrap-sass', '~> 3.3.1'
+gem 'momentjs-rails', '>= 2.9.0'
+gem 'bootstrap3-datetimepicker-rails', '~> 4.7.14'
 gem 'rails', '4.2.0'
 gem 'pg'
 gem 'sass-rails', '~> 5.0'

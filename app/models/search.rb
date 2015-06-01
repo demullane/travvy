@@ -2,7 +2,7 @@ require 'geocoder'
 
 class Search
 
-  def decipher_search_params(location)
+  def decipher_location_input_params(location)
     search_obj = Geocoder.search(location)
     country = search_obj[0].address.split(',').map{|piece| piece.strip}.last
     if country == 'USA'

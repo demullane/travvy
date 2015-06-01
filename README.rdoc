@@ -14,6 +14,7 @@ To-Do
 11. STYLE!
 12. Fix FB login on mobile?
 13. Only show US autocomplete locations
+14. Don't allow same day for departure date via date picker
 ....
 
 1. Speed up site, refactor, cache

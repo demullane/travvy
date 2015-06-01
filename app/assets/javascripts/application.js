@@ -1,6 +1,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap-sprockets
+//= require moment
+//= require bootstrap-datetimepicker
 //= require underscore
 //= require gmaps/google
 //= require jquery.validate
@@ -56,10 +58,15 @@ $(document).ready(function() {
 
   $('#search_form').validate({
     debug: false,
+    errorPlacement: function(error, element) {
+      element_id = element[0].id;
+      error.appendTo('span#' + element_id + '_errors');
+    },
     rules: {
       'location_input': {required: true},
       'arrival_date': {required: true, date: true, currentOrFutureDate: true},
-      'departure_date': {required: true, date: true, laterThanArrivalDate: true}
+      'departure_date': {required: true, date: true, laterThanArrivalDate: true},
+      'guest_count': {required: true, digits: true}
     }
   });
 
