@@ -9,9 +9,6 @@ class HotelFetcher
   end
 
   def search_hotels(location_input, arrival_date, departure_date, guest_count)
-    arrival_date = arrival_date
-    departure_date = departure_date
-
     response = @hotel_search.get do |req|
       req.url('list?')
       req.params['apiKey'] = ENV['EXPEDIA_KEY']
@@ -88,9 +85,18 @@ class HotelFetcher
       location_descriptions[index].sub! '&apos;', '\''
 
       extra_info = self.extra_info(val)
-      extra_info['HotelInformationResponse']['RoomTypes']['RoomType'].each do |room_type|
+      room_types = extra_info['HotelInformationResponse']['RoomTypes']
+      room_type_count = room_types['@size'].to_i
+      room_type = room_types['RoomType']
+      if room_type_count == 1
         if room_type['@roomCode'].to_s == room_type_codes[index].to_s
           @room_amenities = room_type['roomAmenities']['RoomAmenity']
+        end
+      else
+        room_type.each do |type|
+          if type['@roomCode'].to_s == room_type_codes[index].to_s
+            @room_amenities = type['roomAmenities']['RoomAmenity']
+          end
         end
       end
       hotel_amentities = extra_info['HotelInformationResponse']['PropertyAmenities']['PropertyAmenity']
