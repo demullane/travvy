@@ -114,7 +114,6 @@ class HotelFetcher
       hotel_results.each do |listing|
         listing[:distance] = Geocoder::Calculations.distance_between([listing[:latitude],listing[:longitude]], [location_input[:latitude],location_input[:longitude]]).round(1)
       end
-      hotel_results.sort! {|a,b| a[:distance] <=> b[:distance]}
 
       return true, hotel_results
     end

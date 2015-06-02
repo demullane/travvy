@@ -56,6 +56,11 @@ class HomeController < ApplicationController
       @arrival_date = params[:arrival_date]
       @departure_date = params[:departure_date]
       @guest_count = params[:guest_count]
+      @search_filter = params[:search_filter]
+
+      if !(params[:search_filter] == 'Distance' || params[:search_filter] == 'Price')
+        @search_filter = 'Distance'
+      end
 
       hotel_valid, @hotel_results = HotelFetcher.new.hotel_pretty_results(@location_data, params[:arrival_date], params[:departure_date], params[:guest_count])
       if !hotel_valid
@@ -64,6 +69,12 @@ class HomeController < ApplicationController
 
       airbnb_valid, @airbnb_results = AirbnbFetcher.new.airbnb_search_query(@location_data, params[:arrival_date], params[:departure_date], params[:guest_count])
 
+      if hotel_valid
+        @hotel_results = Filter.new.send(@search_filter.downcase.to_sym, @hotel_results)
+      end
+      if airbnb_valid
+        @airbnb_results = Filter.new.send(@search_filter.downcase.to_sym, @airbnb_results)
+      end
     end
   end
 
