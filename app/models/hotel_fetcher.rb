@@ -18,7 +18,7 @@ class HotelFetcher
       req.params['currencyCode'] = 'USD'
       req.params['arrivalDate'] = arrival_date #checkin variable
       req.params['departureDate'] = departure_date #checkout variable
-      req.params['numberOfResults'] = 70 #1-200
+      req.params['numberOfResults'] = 72 #1-200
       req.params['room1'] = guest_count #adult count variable
       req.params['destinationString'] = "#{location_input[:city]}, #{location_input[:state]}, #{location_input[:zipcode]}" #city, state, zipcode
     end

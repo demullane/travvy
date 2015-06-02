@@ -82,29 +82,25 @@
     <p>Location: <%= @location_input %>
     <br>Arrival: <%= @arrival_date %>
     <br>Departure: <%= @departure_date %></p>
-    <% if @hotel_error_message %>
-      <div><%= @hotel_error_message %></div>
-    <% elsif @airbnb_results %>
-      <div class='listings'>
-        <ol>
-          <% @airbnb_results.each_with_index do |listing, index| %>
-            <div>
-              <li>
-                <strong>
-                  <%= link_to listing[:title], listing[:link], target: '_blank' %>
-                </strong>
-              </li><br>
-              Price: <%= listing[:price] %><br>
-              Location: <%= listing[:location_description] %><br>
-              Latitude: <%= listing[:latitude] %><br>
-              Longitude: <%= listing[:longitude] %><br>
-              Distance: <%= listing[:distance] %> miles<br>
-            </div>
-            <br />
-          <% end %>
-        </ol>
-      </div>
-    <% end %>
+    <div class='listings'>
+      <ol>
+        <% @airbnb_results.each_with_index do |listing, index| %>
+          <div>
+            <li>
+              <strong>
+                <%= link_to listing[:title], listing[:link], target: '_blank' %>
+              </strong>
+            </li><br>
+            Price: <%= listing[:price] %><br>
+            Location: <%= listing[:location_description] %><br>
+            Latitude: <%= listing[:latitude] %><br>
+            Longitude: <%= listing[:longitude] %><br>
+            Distance: <%= listing[:distance] %> miles<br>
+          </div>
+          <br />
+        <% end %>
+      </ol>
+    </div>
   <% end %>
 </div>
 
