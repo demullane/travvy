@@ -84,10 +84,10 @@
     <br>Departure: <%= @departure_date %></p>
     <% if @hotel_error_message %>
       <div><%= @hotel_error_message %></div>
-    <% elsif @hotel_results %>
+    <% elsif @airbnb_results %>
       <div class='listings'>
         <ol>
-          <% @hotel_results.each_with_index do |listing, index| %>
+          <% @airbnb_results.each_with_index do |listing, index| %>
             <div>
               <li>
                 <strong>

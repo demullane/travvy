@@ -6,17 +6,39 @@ class AirbnbFetcher
     @page = Mechanize.new.get('https://www.airbnb.com')
   end
 
-  def search_airbnb #(location, checkin, checkout, guests)
+  def search_airbnb(location_input, arrival_date, departure_date, guest_count)
     form = @page.forms[3]
-      form['location'] = 'Denver, CO, United States'
-      form['checkin'] = '07/21/2015'
-      form['checkout'] = '07/22/2015'
-      form['guests'] = '1 Guest'
+      form['location'] = "#{location_input[:city]}, #{location_input[:state]}, #{location_input[:zipcode]}" #city, state, zipcode
+      form['checkin'] = arrival_date
+      form['checkout'] = departure_date
+      form['guests'] = self.guest_count_converter(guest_count)
     @page = form.submit
   end
 
-  def airbnb_pretty_results #(location, checkin, checkout, guests)
-    self.search_airbnb #(location, checkin, checkout, guests)
+  def airbnb_search_query(location_input, arrival_date, departure_date, guest_count)
+    @location_input = location_input
+    if !defined?(page_count)
+      self.search_airbnb(@location_input, arrival_date, departure_date, guest_count)
+      page_count = 1
+      @airbnb_results = []
+      self.airbnb_pretty_results
+      results_count = @page.search('.results_count').text.strip.split(' ')[4].to_i
+      origin_query = @page.uri.to_s
+      origin_query.slice! '&source=bb'
+      p ('ORIGIN QUERY: ') + origin_query
+    end
+    while results_count > (page_count * 18) && (page_count * 18) <= 54
+      page_count += 1
+      next_page = origin_query + "&page=#{page_count}"
+      @page = Mechanize.new.get(next_page)
+      self.airbnb_pretty_results
+      p "PAGE #{page_count}: " + next_page
+    end
+    @airbnb_results.sort! {|a,b| a[:distance] <=> b[:distance]}
+    return true, @airbnb_results
+  end
+
+  def airbnb_pretty_results
     titles = @page.search("//div[contains(concat(' ', @class, ' '),' listing ')]").collect {|node| node['data-name']}
     links = @page.search("//div[contains(concat(' ', @class, ' '),' listing ')]").collect {|node| node['data-url']}
     prices = @page.search("//div[contains(concat(' ', @class, ' '),' listing ')]").collect {|node| node['data-price']}
@@ -36,12 +58,21 @@ class AirbnbFetcher
       price = "$" + number
     end
 
-    airbnb_results = []
     titles.each_with_index do |val, index|
-      airbnb_results << {:title => val.split.map(&:capitalize).join(' '), :link => links[index], :price => prices[index], :image => imgs[index], :location_description => location_description[index], :latitude => latitudes[index], :longitude => longitudes[index]}
+      @airbnb_results << {:title => val.split.map(&:capitalize).join(' '), :link => links[index], :price => prices[index], :image => imgs[index], :location_description => location_description[index], :latitude => latitudes[index], :longitude => longitudes[index]}
     end
 
-    return airbnb_results
+    @airbnb_results.each do |listing|
+      listing[:distance] = Geocoder::Calculations.distance_between([listing[:latitude],listing[:longitude]], [@location_input[:latitude],@location_input[:longitude]]).round(1)
+    end
+  end
+
+  def guest_count_converter(guest_count)
+    if guest_count == 1
+      return '1 Guest'
+    else
+      return (guest_count.to_s + ' Guests')
+    end
   end
 
 end
