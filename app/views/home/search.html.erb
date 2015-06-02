@@ -22,7 +22,7 @@
     <%= label_tag :departure_date, 'Departure Date', class: 'control-label col-md-2' %>
     <div class = 'form-controls col-md-4'>
       <div class = 'input-group date' id='departure_date_picker'>
-        <%= text_field_tag :departure_date, nil, class: 'form-control', placeholder: 'Please select a date...' %>
+        <%= text_field_tag :departure_date, nil, class: 'form-control', placeholder: 'Please select a date...', disabled: false %>
         <span class = 'input-group-addon'>
             <span class = 'glyphicon glyphicon-calendar'></span>
         </span>
@@ -44,42 +44,76 @@
   </div>
 <% end %>
 
-<% if @location_data %>
-  <p><%= @location_data %></p>
-  <p>Location: <%= @location_input %>
-  <br>Arrival: <%= @arrival_date %>
-  <br>Departure: <%= @departure_date %></p>
-  <% if @hotel_error_message %>
-    <div><%= @hotel_error_message %></div>
-  <% elsif @hotel_results %>
-    <div class='listings'>
-      <ol>
-        <% @hotel_results.each_with_index do |listing, index| %>
-          <div>
-            <li>
-              <strong>
-                <%= link_to listing[:title], listing[:link], target: '_blank' %>
-              </strong>
-            </li><br>
-            Price: <%= listing[:price] %><br>
-            Location: <%= listing[:location_description] %><br>
-            Latitude: <%= listing[:latitude] %><br>
-            Longitude: <%= listing[:longitude] %><br>
-            Distance: <%= listing[:distance] %> miles<br>
-          </div>
-          <br />
-        <% end %>
-      </ol>
-    </div>
+<div class = 'col-md-6'>
+  <% if @location_data %>
+    <p><%= @location_data %></p>
+    <p>Location: <%= @location_input %>
+    <br>Arrival: <%= @arrival_date %>
+    <br>Departure: <%= @departure_date %></p>
+    <% if @hotel_error_message %>
+      <div><%= @hotel_error_message %></div>
+    <% elsif @hotel_results %>
+      <div class='listings'>
+        <ol>
+          <% @hotel_results.each_with_index do |listing, index| %>
+            <div>
+              <li>
+                <strong>
+                  <%= link_to listing[:title], listing[:link], target: '_blank' %>
+                </strong>
+              </li><br>
+              Price: <%= listing[:price] %><br>
+              Location: <%= listing[:location_description] %><br>
+              Latitude: <%= listing[:latitude] %><br>
+              Longitude: <%= listing[:longitude] %><br>
+              Distance: <%= listing[:distance] %> miles<br>
+            </div>
+            <br />
+          <% end %>
+        </ol>
+      </div>
+    <% end %>
   <% end %>
-<% end %>
+</div>
+
+<div class = 'col-md-6'>
+  <% if @location_data %>
+    <p><%= @location_data %></p>
+    <p>Location: <%= @location_input %>
+    <br>Arrival: <%= @arrival_date %>
+    <br>Departure: <%= @departure_date %></p>
+    <% if @hotel_error_message %>
+      <div><%= @hotel_error_message %></div>
+    <% elsif @hotel_results %>
+      <div class='listings'>
+        <ol>
+          <% @hotel_results.each_with_index do |listing, index| %>
+            <div>
+              <li>
+                <strong>
+                  <%= link_to listing[:title], listing[:link], target: '_blank' %>
+                </strong>
+              </li><br>
+              Price: <%= listing[:price] %><br>
+              Location: <%= listing[:location_description] %><br>
+              Latitude: <%= listing[:latitude] %><br>
+              Longitude: <%= listing[:longitude] %><br>
+              Distance: <%= listing[:distance] %> miles<br>
+            </div>
+            <br />
+          <% end %>
+        </ol>
+      </div>
+    <% end %>
+  <% end %>
+</div>
 
 <script>
-  $("#location_input").geocomplete();
+  $('#location_input').geocomplete();
 
   // Trigger geocoding request.
-  $("button.find").click(function(){
-    $("input").trigger("geocode");
+  $('button.find').click(function(){
+    $('input').trigger('geocode');
   });
 
   $(function () {
@@ -88,16 +122,18 @@
       format: 'MM/DD/YYYY',
       minDate: moment()
     });
+
     $('#departure_date_picker').datetimepicker({
       viewMode: 'days',
       format: 'MM/DD/YYYY',
       minDate: moment()
     });
-    $("#arrival_date_picker").on("dp.change", function (e) {
-        $('#departure_date_picker').data("DateTimePicker").minDate(e.date);
+    $('#arrival_date_picker').on('dp.change', function (e) {
+      $('#departure_date_picker').data('DateTimePicker').minDate(e.date);
+      $('#departure_date_picker').data('DateTimePicker').disabledDates([e.date]);
     });
-    $("#departure_date_picker").on("dp.change", function (e) {
-        $('#arrival_date_picker').data("DateTimePicker").maxDate(e.date);
+    $('#departure_date_picker').on('dp.change', function (e) {
+      $('#arrival_date_picker').data('DateTimePicker').maxDate(e.date);
     });
   });
 </script>

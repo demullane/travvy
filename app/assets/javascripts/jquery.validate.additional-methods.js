@@ -952,7 +952,7 @@ $.validator.addMethod('laterThanArrivalDate', function(value, element) {
 	var departureDate = new Date(value);
 	departureDate = new Date(departureDate.getTime() + departureDate.getTimezoneOffset()*60000);
 	if (arrivalDate !== null){
-		return this.optional(element) || (departureDate >= arrivalDate);
+		return this.optional(element) || (departureDate > arrivalDate);
 	}else{
 		return true;
 	}

@@ -1,8 +1,5 @@
 To-Do
 
-** price
-
-
 1. Integrate search with AB results
 2. Add on other search fields and integrate with search models
 3. Validate no blank fields
