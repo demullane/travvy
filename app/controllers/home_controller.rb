@@ -1,9 +1,5 @@
 class HomeController < ApplicationController
 
-  def index
-    @airbnb_results = AirbnbFetcher.new.airbnb_pretty_results
-  end
-
   def map # doesn't work currently because of the change to pass the hotel location to the search model first
     @airbnb_results = AirbnbFetcher.new.airbnb_pretty_results
     @hotel_results = HotelFetcher.new.hotel_pretty_results(params[:location])
