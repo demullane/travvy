@@ -3,9 +3,10 @@
 @import 'bootstrap-datetimepicker';
 
 body {
-  padding-top: 60px;
-  padding-left: 20px;
-  padding-right: 20px;
+  min-height: 2000px;
+  padding-top: 70px;
+  // background-image: url('https://dl.dropbox.com/s/0pqpplcl70mis0k/photo-1414924347000-9823c338079b.jpeg?dl=0');
+  background-repeat: no-repeat;
 }
 
 .gmap {
@@ -29,6 +30,18 @@ body {
 
 .listings {
   float: left;
+}
+
+.form-errors {
+  display: block;
+}
+
+.logo {
+  margin: 0 auto;
+  display: block;
+}
+
+.jumbotron {
 }
 
 #search-well-custom {

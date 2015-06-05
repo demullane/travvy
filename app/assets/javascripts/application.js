@@ -34,6 +34,32 @@ function removeHash() {
 
 $(document).ready(function() {
 
+  function setBgInitial(){
+    window_width = $(window).width();
+    window_height = $(window).height();
+  }
+  setBgInitial();
+
+  $('body').css('background-image', "url('https://dl.dropbox.com/s/0pqpplcl70mis0k/photo-1414924347000-9823c338079b.jpeg?dl=0')");
+
+  function setBgSize(){
+    if (window_width > window_height){
+      if ((3744 * window_width)/5616 < window_height){
+        $('body').css('background-size', 'auto ' + window_height + 'px');
+      } else {
+        $('body').css('background-size', window_width + 'px auto');
+      }
+    } else {
+      $('body').css('background-size', 'auto ' + window_height + 'px');
+    }
+  }
+
+  setBgSize();
+  $(window).resize(function(){
+    setBgInitial();
+    setBgSize();
+  });
+
   $('#location_input').change(function(event, ui) {
     var results = $('.pac-item').map(function() {
       return $(this).children().map(function() {
@@ -60,7 +86,7 @@ $(document).ready(function() {
     debug: false,
     errorPlacement: function(error, element) {
       element_id = element[0].id;
-      error.appendTo('span#' + element_id + '_errors');
+      error.appendTo('div#' + element_id + '_errors');
     },
     rules: {
       'location_input': {required: true},
