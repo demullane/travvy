@@ -957,4 +957,5 @@ $.validator.addMethod('laterThanArrivalDate', function(value, element) {
 		return true;
 	}
 }, 'Please select a date that is after the arrival date.');
+
 }));

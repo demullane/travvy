@@ -2,11 +2,19 @@
 @import 'bootstrap';
 @import 'bootstrap-datetimepicker';
 
+// @import url(https://fonts.googleapis.com/css?family=Dosis:400,700);
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,700);
+
+$grey: #ababab;
+$red: #F1433F;
+$darkGrey: #2f3537;
+
 body {
-  min-height: 2000px;
   padding-top: 70px;
-  // background-image: url('https://dl.dropbox.com/s/0pqpplcl70mis0k/photo-1414924347000-9823c338079b.jpeg?dl=0');
+  padding-bottom: 70px;
   background-repeat: no-repeat;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
 }
 
 .gmap {
@@ -34,18 +42,101 @@ body {
 
 .form-errors {
   display: block;
+  height: 20px;
+  color: $darkGrey;
 }
 
 .logo {
   margin: 0 auto;
   display: block;
+  max-width: 100%;
+  height: auto;
 }
 
 .jumbotron {
+  background-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.6);
+  -webkit-box-shadow: -1px 4px 25px -4px rgba(0,0,0,0.75);
+  -moz-box-shadow: -1px 4px 25px -4px rgba(0,0,0,0.75);
+  box-shadow: -1px 4px 25px -4px rgba(0,0,0,0.75);
+}
+
+.container .jumbotron{
+  border-radius: 1px;
+}
+
+.form-control{
+  border-radius: 1px;
+}
+
+.input-group-addon{
+  border-radius: 1px;
+  color: $red;
+}
+
+.placeholder{
+  color: $grey;
+}
+
+.btn-primary{
+  border: 0px;
+  background-color: $red;
+  &:hover {
+    background-color: $darkGrey;
+  }
+  height: 100%;
+  // -webkit-box-shadow: -1px 4px 25px -4px rgba(0,0,0,0.75);
+  // -moz-box-shadow: -1px 4px 25px -4px rgba(0,0,0,0.75);
+  // box-shadow: -1px 4px 25px -4px rgba(0,0,0,0.75);
+}
+
+.form-control::-webkit-input-placeholder {
+   color: $grey;
+}
+
+.form-control:-moz-placeholder { /* Firefox 18- */
+   color: $grey;
+}
+
+.form-control::-moz-placeholder {  /* Firefox 19+ */
+   color: $grey;
+}
+
+.form-control:-ms-input-placeholder {
+   color: $grey;
+}
+
+select option:first-child{
+  color: grey; display: none;
+}
+select option{
+  color: #555; // bootstrap default color
+}
+
+select{
+  -webkit-appearance: none;
+  border-radius: 1px;
+}
+
+fieldset{
+  background-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.6);
+  padding: 20px 20px 40px 20px;
+  border-radius: 1px;
+  -webkit-box-shadow: -1px 4px 25px -4px rgba(0,0,0,0.75);
+  -moz-box-shadow: -1px 4px 25px -4px rgba(0,0,0,0.75);
+  box-shadow: -1px 4px 25px -4px rgba(0,0,0,0.75);
 }
 
 #search-well-custom {
   min-width: 360px;
   margin-top: 15px;
   margin-bottom: 15px;
+}
+
+textarea:focus, input:focus, input[type]:focus, .uneditable-input:focus, #guest-select:focus, #filter-select:focus {
+    border-color: $red;
+    box-shadow: 0 1px 1px rgba(229, 103, 23, 0.075) inset, 0 0 8px rgba(229, 103, 23, 0.6);
+    outline: 0 none;
 }
