@@ -11,7 +11,7 @@
 
     <title>Travvy</title>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', params[:controller], 'facebook.js.coffee', 'jquery.geocomplete.js', 'jquery.validate.additional-methods.js', 'jquery.validate.js','data-turbolinks-track' => true %>    
     <%= csrf_meta_tags %>
     <script src='//google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.14/src/markerclusterer_packed.js' type='text/javascript'></script>
     <script src='//maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places' type='text/javascript'></script>
@@ -26,22 +26,15 @@
 
   <body>
 
-    <% if request.fullpath != '/' %>
-      <%= render 'navbar' %>
-    <% end %>
-
     <div class="container">
 
-      <!-- Main component for a primary marketing message or call to action -->
-      <div class="jumbotron">
-        <%= image_tag 'travvy_logo_shadow9.png', class: 'logo' %>
-        <!-- <h1>Navbar example</h1>
-        <p>This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
-        <p>To see the difference between static and fixed top navbars, just scroll.</p>
-        <p>
-          <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
-        </p> -->
-      </div>
+      <% if request.fullpath != '/' %>
+        <%= render 'navbar' %>
+      <% end %>
+
+      <% if request.fullpath == '/' %>
+        <%= render 'header' %>
+      <% end %>
 
       <% flash.each do |type, message| %>
         <% if type == "notice" %>
@@ -65,7 +58,7 @@
 
       <%= yield %>
 
-    </div> <!-- /container -->
+    </div>
 
   </body>
 </html>
