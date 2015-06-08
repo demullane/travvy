@@ -2,7 +2,7 @@
   <fieldset>
     <div class = 'form-group'>
       <div id='location_input_errors' class='form-errors'></div>
-      <%= text_field_tag :location_input, nil, class: 'form-control', placeholder: 'City or Address' %>
+      <%= text_field_tag :location_input, nil, class: 'form-control col-lg-6', placeholder: 'City or Address' %>
     </div>
     <div class = 'form-group'>
       <div id='arrival_date_errors' class='form-errors'></div>
@@ -46,69 +46,6 @@
     </div>
   </fieldset>
 <% end %>
-
-
-
-
-<div class = 'col-md-6'>
-  <% if @location_data %>
-    <p><%= @location_data %></p>
-    <p>Location: <%= @location_input %>
-    <br>Arrival: <%= @arrival_date %>
-    <br>Departure: <%= @departure_date %></p>
-    <% if @hotel_error_message %>
-      <div><%= @hotel_error_message %></div>
-    <% elsif @hotel_results %>
-      <div class='listings'>
-        <ol>
-          <% @hotel_results.each_with_index do |listing, index| %>
-            <div>
-              <li>
-                <strong>
-                  <%= link_to listing[:title], listing[:link], target: '_blank' %>
-                </strong>
-              </li><br>
-              Price: <%= listing[:price] %><br>
-              Location: <%= listing[:location_description] %><br>
-              Latitude: <%= listing[:latitude] %><br>
-              Longitude: <%= listing[:longitude] %><br>
-              Distance: <%= listing[:distance] %> miles<br>
-            </div>
-            <br />
-          <% end %>
-        </ol>
-      </div>
-    <% end %>
-  <% end %>
-</div>
-
-<div class = 'col-md-6'>
-  <% if @location_data %>
-    <p><%= @location_data %></p>
-    <p>Location: <%= @location_input %>
-    <br>Arrival: <%= @arrival_date %>
-    <br>Departure: <%= @departure_date %></p>
-    <div class='listings'>
-      <ol>
-        <% @airbnb_results.each_with_index do |listing, index| %>
-          <div>
-            <li>
-              <strong>
-                <%= link_to listing[:title], listing[:link], target: '_blank' %>
-              </strong>
-            </li><br>
-            Price: <%= listing[:price] %><br>
-            Location: <%= listing[:location_description] %><br>
-            Latitude: <%= listing[:latitude] %><br>
-            Longitude: <%= listing[:longitude] %><br>
-            Distance: <%= listing[:distance] %> miles<br>
-          </div>
-          <br />
-        <% end %>
-      </ol>
-    </div>
-  <% end %>
-</div>
 
 <script>
   $('#location_input').geocomplete();

@@ -106,10 +106,18 @@ class HotelFetcher
           end
         end
         hotel_amentities = extra_info['HotelInformationResponse']['PropertyAmenities']['PropertyAmenity']
-        # imgs = extra_info['HotelInformationResponse']['HotelImages']['HotelImage']
-
+        imgs = extra_info['HotelInformationResponse']['HotelImages']['HotelImage']
+        feature_img = {}
+        imgs.each do |img|
+          if img['category'] == 1 && img['type'] == 1
+            feature_img = img
+          end
+        end
+        if feature_img == {}
+          feature_img = imgs[0]
+        end
         #create array of hashes with info for each hotel listing
-        hotel_results << {:title => titles[index], :link => links[index], :price => prices[index], :location_description => location_descriptions[index], :latitude => latitudes[index], :longitude => longitudes[index], :hotel_amenities => hotel_amentities, :room_amenities => @room_amenities}
+        hotel_results << {:title => titles[index], :link => links[index], :price => prices[index], :feature_image => feature_img, :images => imgs, :location_description => location_descriptions[index], :latitude => latitudes[index], :longitude => longitudes[index], :hotel_amenities => hotel_amentities, :room_amenities => @room_amenities}
       end
       hotel_results.each do |listing|
         listing[:distance] = Geocoder::Calculations.distance_between([listing[:latitude],listing[:longitude]], [location_input[:latitude],location_input[:longitude]]).round(1)

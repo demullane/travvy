@@ -1,0 +1,27 @@
+
+
+<div id="tab-2" class="tab-content">
+	<% if @location_data %>
+		<section id="demo">
+			<% @airbnb_results.each_with_index do |listing, index| %>
+				<article class="white-panel">
+					<div class = 'row'>
+						<strong><%= link_to listing[:title], listing[:link], target: '_blank' %></strong>
+						<div class='col-md-4 no-padding'>
+							<%= image_tag listing[:image], alt: listing[:title], title: listing[:title], id: 'pin-grid-img' %>
+						</div>
+						<div class = 'col-md-7 no-padding'>
+							<p id='pin-grid-text'>
+								Price: <%= listing[:price] %><br>
+								Location: <%= listing[:location_description] %><br>
+	              Latitude: <%= listing[:latitude] %><br>
+	              Longitude: <%= listing[:longitude] %><br>
+	              Distance: <%= listing[:distance] %> miles<br>
+							</p>
+						</div>
+					</div>
+				</article>
+			<% end %>
+		</section>
+	<% end %>
+</div>

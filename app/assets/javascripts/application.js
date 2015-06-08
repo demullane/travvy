@@ -85,7 +85,13 @@ $(document).ready(function() {
     debug: false,
     errorPlacement: function(error, element) {
       element_id = element[0].id;
-      error.appendTo('div#' + element_id + '_errors');
+      if (element_id === 'guest-select'){
+        error.appendTo('div#guest_count_errors');
+      } else if (element_id === 'filter-select'){
+        error.appendTo('div#search_filter_errors');
+      } else{
+        error.appendTo('div#' + element_id + '_errors');
+      }
     },
     rules: {
       'location_input': {required: true},

@@ -6,7 +6,11 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,700);
 
 $grey: #ababab;
-$red: #F1433F;
+// $red: #F1433F; true
+// $red: #37469d; purple
+// $red: #007dc5; blue
+//$red: #2F585D; green
+$red: #28909d;
 $darkGrey: #2f3537;
 
 body {
@@ -34,10 +38,6 @@ body {
 
 .infobox-image {
   max-width: 200px;
-}
-
-.listings {
-  float: left;
 }
 
 .form-errors {
@@ -79,16 +79,18 @@ body {
   color: $grey;
 }
 
-.btn-primary{
+.btn-primary {
+  //@include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
+  @include button-variant(white, $red, $red);
   border: 0px;
-  background-color: $red;
-  &:hover {
-    background-color: $darkGrey;
-  }
-  height: 100%;
-  // -webkit-box-shadow: -1px 4px 25px -4px rgba(0,0,0,0.75);
-  // -moz-box-shadow: -1px 4px 25px -4px rgba(0,0,0,0.75);
-  // box-shadow: -1px 4px 25px -4px rgba(0,0,0,0.75);
+}
+
+.btn-primary:focus{
+  outline: none;
+}
+
+.btn-primary:active:focus{
+  outline: none;
 }
 
 .form-control::-webkit-input-placeholder {
@@ -137,6 +139,86 @@ fieldset{
 
 textarea:focus, input:focus, input[type]:focus, .uneditable-input:focus, #guest-select:focus, #filter-select:focus {
     border-color: $red;
-    box-shadow: 0 1px 1px rgba(229, 103, 23, 0.075) inset, 0 0 8px rgba(229, 103, 23, 0.6);
+    box-shadow: 0 1px 1px $red inset, 0 0 8px $red;
     outline: 0 none;
+}
+
+// results page
+
+// tab style
+
+ul.tabs{
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+}
+ul.tabs li{
+  background: none;
+  color: #222;
+  display: inline-block;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+ul.tabs li.current{
+  background: #ededed;
+  color: #222;
+}
+
+.tab-content{
+  display: none;
+  background: #ededed;
+  padding: 15px;
+}
+
+.tab-content.current{
+  display: inherit;
+}
+
+//pinterest grid style
+
+#demo {
+  position: relative;
+  max-width: 100%;
+  width: 100%;
+}
+
+.no-padding {
+  padding: 0px;
+  margin: 0px;
+}
+
+.row{
+  margin-left: 0px;
+  margin-right: 0px;
+}
+#pin-grid-img {
+  width: 100%;
+  max-width: 350px;
+  height: auto;
+  padding-right: 10px;
+}
+#pin-grid-text {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.white-panel {
+  position: absolute;
+  background: white;
+  box-shadow: 0px 1px 2px rgba(0,0,0,0.3);
+  padding: 10px;
+}
+.white-panel h1 {
+  font-size: 1em;
+}
+.white-panel h1 a {
+  color: #A92733;
+}
+.white-panel:hover {
+  box-shadow: 1px 1px 10px rgba(0,0,0,0.5);
+  margin-top: -5px;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
