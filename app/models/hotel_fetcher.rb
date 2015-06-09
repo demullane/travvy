@@ -40,7 +40,7 @@ class HotelFetcher
   def hotel_pretty_results(location_input, arrival_date, departure_date, guest_count)
     data = self.search_hotels(location_input, arrival_date, departure_date, guest_count)['HotelListResponse']
     if defined?(data['EanWsError']['category'])
-      if data['EanWsError']['category'] == 'EXCEPTION'
+      if data['EanWsError']
         return false, data['EanWsError']['presentationMessage']
       end
     else
