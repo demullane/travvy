@@ -38,10 +38,12 @@ class ResultsController < ApplicationController
         @airbnb_results = Filter.new.send(@search_filter.downcase.to_sym, @airbnb_results)
       end
 
-      if !@hotel_error_message
+      if !@hotel_error_message && !@airbnb_error_message
         results = @airbnb_results + @hotel_results
-      else
+      elsif !@airbnb_error_message
         results = @airbnb_results
+      else
+        results = @hotel_results
       end
 
       @gmap_hash = Gmaps4rails.build_markers(results) do |listing, marker|
