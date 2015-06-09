@@ -35,16 +35,16 @@
 
 <div id="tab-2" class="tab-content">
 	<% if @location_data %>
-		<% if @hotel_error_message %>
-			<div><%= @hotel_error_message %></div>
-		<% elsif @hotel_results %>
-			<section id="demo">
-				<% @hotel_results.each_with_index do |listing, index| %>
+		<% if @airbnb_error_message %>
+			<div><%= @airbnb_error_message %></div>
+		<% elsif @airbnb_results %>
+			<section id="demo2">
+				<% @airbnb_results.each_with_index do |listing, index| %>
 					<article class="white-panel">
 						<div class = 'row'>
 							<strong><%= link_to listing[:title], listing[:link], target: '_blank' %></strong>
 							<div class='col-md-4 no-padding'>
-								<%= image_tag listing[:feature_image]['url'], alt: listing[:feature_image]['caption'], title: listing[:feature_image]['caption'], id: 'pin-grid-img' %>
+								<%= image_tag listing[:image], alt: listing[:title], title: listing[:title], id: 'pin-grid-img' %>
 							</div>
 							<div class = 'col-md-7 no-padding'>
 								<p id='pin-grid-text'>

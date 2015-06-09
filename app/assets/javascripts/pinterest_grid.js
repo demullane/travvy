@@ -63,9 +63,9 @@
             $article = $(this.element).children();
 
         if(single_column_mode === true) {
-            article_width = $container.width() - self.options.padding_x;
+            article_width = $container.width() - self.options.padding_x + 10;
         } else {
-            article_width = ($container.width() - self.options.padding_x * self.options.no_columns) / self.options.no_columns;
+            article_width = ($container.width() - self.options.padding_x * self.options.no_columns) / self.options.no_columns + 10;
         }
 
         $article.each(function() {

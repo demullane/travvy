@@ -24,11 +24,16 @@ class ResultsController < ApplicationController
         @hotel_error_message = @hotel_results
       end
 
-      airbnb_valid, @airbnb_results = AirbnbFetcher.new.airbnb_search_query(@location_data, params[:arrival_date], params[:departure_date], params[:guest_count])
+      begin
+        airbnb_valid, @airbnb_results = AirbnbFetcher.new.airbnb_search_query(@location_data, params[:arrival_date], params[:departure_date], params[:guest_count])
+      rescue Mechanize::ResponseCodeError => e
+        @airbnb_error_message = e
+      end
 
       if hotel_valid
         @hotel_results = Filter.new.send(@search_filter.downcase.to_sym, @hotel_results)
       end
+
       if airbnb_valid
         @airbnb_results = Filter.new.send(@search_filter.downcase.to_sym, @airbnb_results)
       end

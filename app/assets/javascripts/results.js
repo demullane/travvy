@@ -8,15 +8,35 @@ $(document).ready(function(){
 
 		$(this).addClass('current');
 		$("#"+tab_id).addClass('current');
+
+		if (tab_id === 'tab-1'){
+			pinGridTab1();
+		} else {
+			pinGridTab2();
+		}
 	});
 
-	$('#demo').pinterest_grid({
-		no_columns: 1,
-		padding_x: 10,
-		padding_y: 10,
-		margin_bottom: 50,
-		single_column_breakpoint: 700
-	});
+	function pinGridTab1(){
+		$('#demo').pinterest_grid({
+			no_columns: 1,
+			padding_x: 10,
+			padding_y: 10,
+			margin_bottom: 50,
+			single_column_breakpoint: 700
+		});
+	}
+
+	pinGridTab1();
+
+	function pinGridTab2(){
+		$('#demo2').pinterest_grid({
+			no_columns: 1,
+			padding_x: 10,
+			padding_y: 10,
+			margin_bottom: 50,
+			single_column_breakpoint: 700
+		});
+	}
 
 	function columnPadding(){
 		gridPs = $('p[id=pin-grid-text]');

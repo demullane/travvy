@@ -34,8 +34,7 @@ class AirbnbFetcher
       self.airbnb_pretty_results
       p "PAGE #{page_count}: " + next_page
     end
-    @airbnb_results.sort! {|a,b| a[:distance] <=> b[:distance]}
-    return true, @airbnb_results
+    return true, @airbnb_results.uniq { |listing| [listing[:latitude], listing[:longitude]] }
   end
 
   def airbnb_pretty_results
