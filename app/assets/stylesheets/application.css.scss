@@ -22,7 +22,7 @@ body {
 }
 
 .gmap {
-  width: 500px;
+  width: 100%;
   height: 500px;
 }
 
@@ -173,6 +173,19 @@ ul.tabs li.current{
 
 .tab-content.current{
   display: inherit;
+}
+
+.col-listings {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.col-map{
+  position: fixed;
+  right: 0;
+  padding-left: 0px;
+  padding-right: 0px;
+  width: 25%;
 }
 
 //pinterest grid style

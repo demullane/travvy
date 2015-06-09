@@ -48,7 +48,7 @@ class HotelFetcher
       titles = data.map{ |hotel| hotel['name']}
       hotel_ids = data.map{ |hotel| hotel['hotelId']}
       room_type_codes = data.map{ |hotel| hotel['RoomRateDetailsList']['RoomRateDetails']['roomTypeCode']}
-      prices = data.map{ |hotel| hotel['RoomRateDetailsList']['RoomRateDetails']['RateInfo']['ChargeableRateInfo']['NightlyRatesPerRoom']['NightlyRate']['@rate']}
+      prices = data.map{ |hotel| hotel['RoomRateDetailsList']['RoomRateDetails']['RateInfo']['ChargeableRateInfo']['NightlyRatesPerRoom']['NightlyRate'][0]['@rate']}
       location_descriptions = data.map{ |hotel| hotel['locationDescription']}
       latitudes = data.map{ |hotel| hotel['latitude']}
       longitudes = data.map{ |hotel| hotel['longitude']}

@@ -1,4 +1,7 @@
 $(document).ready(function(){
+	listingsContainer = $('div.container')[0];
+
+	$(listingsContainer).css('padding-right', '0px');
 
 	$('ul.tabs li').click(function(){
 		var tab_id = $(this).attr('data-tab');
@@ -53,8 +56,16 @@ $(document).ready(function(){
 
 	columnPadding();
 
+	function mapHeight(){
+		window_height = $(window).height();
+		$('.gmap').css('height', window_height + 'px');
+	}
+
+	mapHeight();
+
 	$(window).resize(function(){
 		columnPadding();
+		mapHeight();
 	});
 
 });

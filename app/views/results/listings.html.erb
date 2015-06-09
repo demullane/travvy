@@ -1,64 +1,82 @@
-<ul class="tabs">
-	<li class="tab-link current" data-tab="tab-1">Hotels</li>
-	<li class="tab-link" data-tab="tab-2">AirBNB</li>
-</ul>
+<div class='col-md-7 col-listings'>
 
-<div id="tab-1" class="tab-content current">
-	<% if @location_data %>
-		<% if @hotel_error_message %>
-			<div><%= @hotel_error_message %></div>
-		<% elsif @hotel_results %>
-			<section id="demo">
-				<% @hotel_results.each_with_index do |listing, index| %>
-					<article class="white-panel">
-						<div class = 'row'>
-							<strong><%= link_to listing[:title], listing[:link], target: '_blank' %></strong>
-							<div class='col-md-4 no-padding'>
-								<%= image_tag listing[:feature_image]['url'], alt: listing[:feature_image]['caption'], title: listing[:feature_image]['caption'], id: 'pin-grid-img' %>
-							</div>
-							<div class = 'col-md-7 no-padding'>
-								<p id='pin-grid-text'>
-									Price: <%= listing[:price] %><br>
-									Location: <%= listing[:location_description] %><br>
-		              Latitude: <%= listing[:latitude] %><br>
-		              Longitude: <%= listing[:longitude] %><br>
-		              Distance: <%= listing[:distance] %> miles<br>
-								</p>
-							</div>
-						</div>
-					</article>
+	<ul class='tabs'>
+		<li class='tab-link current' data-tab='tab-1'>Hotels</li>
+		<li class='tab-link' data-tab='tab-2'>AirBNB</li>
+	</ul>
+
+	<div id='tab-1' class='tab-content current'>
+			<% if @location_data %>
+				<% if @hotel_error_message %>
+					<div><%= @hotel_error_message %></div>
+				<% elsif @hotel_results %>
+					<section id='demo'>
+						<% @hotel_results.each_with_index do |listing, index| %>
+							<article class='white-panel'>
+								<div class = 'row'>
+									<strong><%= link_to listing[:title], listing[:link], target: '_blank' %></strong>
+									<div class='col-md-4 no-padding'>
+										<%= image_tag listing[:feature_image]['url'], alt: listing[:feature_image]['caption'], title: listing[:feature_image]['caption'], id: 'pin-grid-img' %>
+									</div>
+									<div class = 'col-md-7 no-padding'>
+										<p id='pin-grid-text'>
+											Price: <%= listing[:price] %><br>
+											Location: <%= listing[:location_description] %><br>
+				              Latitude: <%= listing[:latitude] %><br>
+				              Longitude: <%= listing[:longitude] %><br>
+				              Distance: <%= listing[:distance] %> miles<br>
+										</p>
+									</div>
+								</div>
+							</article>
+						<% end %>
+					</section>
 				<% end %>
-			</section>
+			<% end %>
+	</div>
+
+	<div id='tab-2' class='tab-content'>
+		<% if @location_data %>
+			<% if @airbnb_error_message %>
+				<div><%= @airbnb_error_message %></div>
+			<% elsif @airbnb_results %>
+				<section id='demo2'>
+					<% @airbnb_results.each_with_index do |listing, index| %>
+						<article class='white-panel'>
+							<div class = 'row'>
+								<strong><%= link_to listing[:title], listing[:link], target: '_blank' %></strong>
+								<div class='col-md-4 no-padding'>
+									<%= image_tag listing[:image], alt: listing[:title], title: listing[:title], id: 'pin-grid-img' %>
+								</div>
+								<div class = 'col-md-7 no-padding'>
+									<p id='pin-grid-text'>
+										Price: <%= listing[:price] %><br>
+										Location: <%= listing[:location_description] %><br>
+			              Latitude: <%= listing[:latitude] %><br>
+			              Longitude: <%= listing[:longitude] %><br>
+			              Distance: <%= listing[:distance] %> miles<br>
+									</p>
+								</div>
+							</div>
+						</article>
+					<% end %>
+				</section>
+			<% end %>
 		<% end %>
-	<% end %>
+	</div>
 </div>
 
-<div id="tab-2" class="tab-content">
-	<% if @location_data %>
-		<% if @airbnb_error_message %>
-			<div><%= @airbnb_error_message %></div>
-		<% elsif @airbnb_results %>
-			<section id="demo2">
-				<% @airbnb_results.each_with_index do |listing, index| %>
-					<article class="white-panel">
-						<div class = 'row'>
-							<strong><%= link_to listing[:title], listing[:link], target: '_blank' %></strong>
-							<div class='col-md-4 no-padding'>
-								<%= image_tag listing[:image], alt: listing[:title], title: listing[:title], id: 'pin-grid-img' %>
-							</div>
-							<div class = 'col-md-7 no-padding'>
-								<p id='pin-grid-text'>
-									Price: <%= listing[:price] %><br>
-									Location: <%= listing[:location_description] %><br>
-		              Latitude: <%= listing[:latitude] %><br>
-		              Longitude: <%= listing[:longitude] %><br>
-		              Distance: <%= listing[:distance] %> miles<br>
-								</p>
-							</div>
-						</div>
-					</article>
-				<% end %>
-			</section>
-		<% end %>
-	<% end %>
+<div class = 'col-md-5 col-map'>
+	<div class='gmap' id='map'></div>
 </div>
+
+<script type='text/javascript'>
+handler = Gmaps.build('Google');
+handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+  markers = handler.addMarkers(<%=raw @gmap_hash.to_json %>);
+  handler.bounds.extendWith(markers);
+  handler.fitMapToBounds();
+  handler.getMap().setZoom(12);
+  infowindow.open(Gmaps.map, marker.serviceObject);
+});
+</script>
