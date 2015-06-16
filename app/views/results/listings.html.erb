@@ -67,11 +67,12 @@
 </div>
 
 <script type='text/javascript'>
+var latitude = '<%= @location_data[:latitude] %>'
+var longitude = '<%= @location_data[:longitude] %>'
 handler = Gmaps.build('Google');
 handler.buildMap({ provider: { scrollwheel: false, zoomControl: true, auto_zoom: false }, internal: {id: 'map'}}, function(){
   markers = handler.addMarkers(<%=raw @gmap_hash.to_json %>);
-  handler.bounds.extendWith(markers);
-  handler.fitMapToBounds();
+	handler.map.centerOn([latitude, longitude]);
   handler.getMap().setZoom(12);
   infowindow.open(Gmaps.map, marker.serviceObject);
 });
