@@ -1,4 +1,7 @@
 $(document).ready(function(){
+
+	$(".gmap").sticky({ topSpacing: 0 });
+
 	listingsContainer = $('div.container')[0];
 
 	$(listingsContainer).css('padding-right', '0px');
@@ -24,7 +27,7 @@ $(document).ready(function(){
 			no_columns: 1,
 			padding_x: 10,
 			padding_y: 10,
-			margin_bottom: 50,
+			margin_bottom: 0,
 			single_column_breakpoint: 700
 		});
 	}
@@ -62,6 +65,12 @@ $(document).ready(function(){
 	}
 
 	mapHeight();
+
+	function hotelColumnHeight(){
+		document_height = document.body.scrollHeight;
+		$('#tab-1').css('height', document_height + 'px');
+		$('#tab-2').css('height', document_height + 'px');
+	}
 
 	$(window).resize(function(){
 		columnPadding();

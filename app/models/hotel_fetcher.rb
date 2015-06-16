@@ -13,7 +13,7 @@ class HotelFetcher
       req.url('list?')
       req.params['apiKey'] = ENV['EXPEDIA_KEY']
       req.params['cid'] = 55505
-      req.params['minorRev'] = 4
+      req.params['minorRev'] = 29
       req.params['locale'] = 'en_US'
       req.params['currencyCode'] = 'USD'
       req.params['arrivalDate'] = arrival_date #checkin variable
@@ -28,9 +28,11 @@ class HotelFetcher
   def extra_info(hotel_id)
     response = @hotel_search.get do |req|
       req.url('info?')
-      req.params['apiKey'] = ENV['EXPEDIA_KEY']
+      req.params['minorRev'] = 29
       req.params['cid'] = 55505
-      req.params['minorRev'] = 4
+      req.params['apiKey'] = ENV['EXPEDIA_KEY']
+      req.params['locale'] = 'en_US'
+      req.params['currencyCode'] = 'USD'
       req.params['hotelId'] = hotel_id
       req.params['options'] = 'DEFAULT'
     end
@@ -39,6 +41,7 @@ class HotelFetcher
 
   def hotel_pretty_results(location_input, arrival_date, departure_date, guest_count)
     data = self.search_hotels(location_input, arrival_date, departure_date, guest_count)['HotelListResponse']
+
     if defined?(data['EanWsError']['category'])
       if data['EanWsError']
         return false, data['EanWsError']['presentationMessage']
@@ -48,7 +51,14 @@ class HotelFetcher
       titles = data.map{ |hotel| hotel['name']}
       hotel_ids = data.map{ |hotel| hotel['hotelId']}
       room_type_codes = data.map{ |hotel| hotel['RoomRateDetailsList']['RoomRateDetails']['roomTypeCode']}
-      prices = data.map{ |hotel| hotel['RoomRateDetailsList']['RoomRateDetails']['RateInfo']['ChargeableRateInfo']['NightlyRatesPerRoom']['NightlyRate'][0]['@rate']}
+      price_info = data.map{ |hotel| hotel['RoomRateDetailsList']['RoomRateDetails']['RateInfos']['RateInfo']['RoomGroup']['Room']['ChargeableNightlyRates']}
+      begin
+        price_info.map{ |hotel| hotel['@rate']}
+      rescue
+        prices = price_info.map{ |hotel| hotel[0]['@rate']}
+      else
+        prices = price_info.map{ |hotel| hotel['@rate']}
+      end
       location_descriptions = data.map{ |hotel| hotel['locationDescription']}
       latitudes = data.map{ |hotel| hotel['latitude']}
       longitudes = data.map{ |hotel| hotel['longitude']}
@@ -80,6 +90,7 @@ class HotelFetcher
       end
 
       hotel_results = []
+
       hotel_ids.each_with_index do |val, index|
 
         # replace &amp; and &apos; substrings with corresponding characters
@@ -89,7 +100,6 @@ class HotelFetcher
         location_descriptions[index].sub! ' &amp;', ' &'
         location_descriptions[index].sub! '&amp;', '&'
         location_descriptions[index].sub! '&apos;', '\''
-
         extra_info = self.extra_info(val)
         room_types = extra_info['HotelInformationResponse']['RoomTypes']
         room_type_count = room_types['@size'].to_i
@@ -108,18 +118,19 @@ class HotelFetcher
         hotel_amentities = extra_info['HotelInformationResponse']['PropertyAmenities']['PropertyAmenity']
         imgs = extra_info['HotelInformationResponse']['HotelImages']['HotelImage']
         feature_img = {}
-        imgs.each do |img|
+        imgs.each_with_index do |img, index|
           if img['category'] == 1 && img['type'] == 1
-            feature_img = img
+            feature_img = img['url']
           end
         end
         if feature_img == {}
           feature_img = imgs[0]
         end
         #create array of hashes with info for each hotel listing
-        hotel_results << {:title => titles[index], :link => links[index], :price => prices[index], :feature_image => feature_img, :images => imgs, :location_description => location_descriptions[index], :latitude => latitudes[index], :longitude => longitudes[index], :hotel_amenities => hotel_amentities, :room_amenities => @room_amenities}
+        hotel_results << {:title => titles[index], :link => links[index], :price => prices[index], :image => feature_img, :images => imgs, :location_description => location_descriptions[index], :latitude => latitudes[index], :longitude => longitudes[index], :hotel_amenities => hotel_amentities, :room_amenities => @room_amenities}
       end
-      hotel_results.each do |listing|
+
+      hotel_results.each_with_index do |listing, index|
         listing[:distance] = Geocoder::Calculations.distance_between([listing[:latitude],listing[:longitude]], [location_input[:latitude],location_input[:longitude]]).round(1)
       end
 
