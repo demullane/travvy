@@ -115,19 +115,29 @@ class HotelFetcher
             end
           end
         end
-        hotel_amentities = extra_info['HotelInformationResponse']['PropertyAmenities']['PropertyAmenity']
+
+        begin
+          hotel_amenities = extra_info['HotelInformationResponse']['PropertyAmenities']['PropertyAmenity']
+        rescue
+          hotel_amenities = false
+        end
+
         imgs = extra_info['HotelInformationResponse']['HotelImages']['HotelImage']
-        feature_img = {}
-        imgs.each_with_index do |img, index|
-          if img['category'] == 1 && img['type'] == 1
-            feature_img = img['url']
+
+        if imgs.class == Hash
+          feature_img = imgs['url']
+        else
+          imgs.each do |img|
+            if img['category'] == 1 && img['type'] == 1
+              feature_img = img['url']
+            end
           end
         end
         if feature_img == {}
           feature_img = imgs[0]
         end
         #create array of hashes with info for each hotel listing
-        hotel_results << {:title => titles[index], :link => links[index], :price => prices[index], :image => feature_img, :images => imgs, :location_description => location_descriptions[index], :latitude => latitudes[index], :longitude => longitudes[index], :hotel_amenities => hotel_amentities, :room_amenities => @room_amenities}
+        hotel_results << {:title => titles[index], :link => links[index], :price => prices[index], :image => feature_img, :images => imgs, :location_description => location_descriptions[index], :latitude => latitudes[index], :longitude => longitudes[index], :hotel_amenities => hotel_amenities, :room_amenities => @room_amenities}
       end
 
       hotel_results.each_with_index do |listing, index|
